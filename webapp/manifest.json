@@ -10,15 +10,14 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "dataSources": {
-      "mainService": {
-        "uri": "/sap/opu/odata/",
-        "type": "OData",
-        "settings": {
-          "annotations": [],
-          "localUri": "localService/metadata.xml",
-          "odataVersion": "4.0"
-        }
-      }
+        "YSAPUI5_SRV_01": {
+            "uri": "sap/opu/odata/sap/YSAPUI5_SRV_01/",
+            "type": "OData",
+            "settings": {
+                "odataVersion": "2.0",
+                "localUri": "localService/YSAPUI5_SRV_01/metadata.xml"
+            }
+        }        
     }
   },
   "sap.ui": {
@@ -56,17 +55,18 @@
           "bundleName": "rrhh.rrhh.i18n.i18n"
         }
       },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "synchronizationMode": "None",
-          "operationMode": "Server",
-          "autoExpandSelect": true,
-          "earlyRequests": true,
-          "groupId": "$direct"
+    "empleadosModel": {
+            "dataSource": "YSAPUI5_SRV_01",
+            "preload": true,
+            "settings": {
+                "defaultOperationMode": "Server",
+                "defaultBindingMode": "TwoWay",
+                "defaultCountMode": "Request",
+                "refreshAfterChange": false,
+                "useBatch": false,
+                "defaultUpdateMethod": "Put"
+            }
         }
-      }
     },
     "resources": {
       "css": [
@@ -83,32 +83,60 @@
         "viewPath": "rrhh.rrhh.view",
         "controlAggregation": "pages",
         "controlId": "app",
-        "clearControlAggregation": false
+        "clearControlAggregation": true
       },
       "routes": [
         {
-          "name": "RouteView1",
-          "pattern": "RouteView1",
+          "name": "MenuApp",
+          "pattern": "",
           "target": [
-            "App"
+            "MenuApp"
           ]
-        }
+        },
+        {
+            "name": "CrearEmpleado",
+            "pattern": "CrearEmpleado",
+            "target": [
+              "CrearEmpleado"
+            ]
+          },
+          {
+            "name": "VerEmpleado",
+            "pattern": "VerEmpleado",
+            "target": [
+              "VerEmpleado"
+            ]
+          }            
       ],
       "targets": {
-        "App": {
+        "MenuApp": {
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "App",
-          "viewName": "App"
-        }
+          "clearControlAggregation": true,
+          "viewId": "MenuApp",
+          "viewName": "MenuApp"
+        },
+        "CrearEmpleado": {
+            "viewType": "XML",
+            "transition": "slide",
+            "clearControlAggregation": true,
+            "viewId": "CrearEmpleado",
+            "viewName": "CrearEmpleado"
+          },
+          "VerEmpleado": {
+            "viewType": "XML",
+            "transition": "slide",
+            "clearControlAggregation": true,
+            "viewId": "VerEmpleado",
+            "viewName": "VerEmpleado"
+          }
       }
     },
     "rootView": {
       "viewName": "rrhh.rrhh.view.App",
       "type": "XML",
       "async": true,
-      "id": "App"
+      "id": "app"
     }
   }
 }

@@ -1,0 +1,113 @@
+<mvc:View 
+    id="CrearEmpleado"
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core" 
+    xmlns="sap.m" 
+    controllerName="rrhh.rrhh.controller.CrearEmpleado"
+    xmlns:u="sap.ui.unified">
+
+	<NavContainer id="wizardNavContainer">
+	<pages>
+		<Page id="wizardContentPage" 
+              showHeader="false">
+			<content>
+                <Wizard id="CreateEmployeeWizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+								complete="wizardCompletedHandler">
+					<WizardStep id="tipoEmpleadoStep" 
+                                title="{i18n>tipoEmpleado}"
+								validated="true">
+						<MessageStrip id="messageTipoEmpleado" 
+                                class="sapUiSmallMarginBottom"
+							    text="{i18n>textoSeleccion}"
+								showIcon="true"/>
+                                <HBox id="hbox1"
+										alignItems="Center"
+										justifyContent="Center"
+										width="100%">
+                                    <Button id="TipoEmpleadoInterno" text="{i18n>TipoEmpleadoInterno}" press="goDataEmpleado" icon="sap-icon://add-contact" class="sapUiSmallMarginEnd">
+									    <customData>
+											<core:CustomData key="tipoEmpleado" value="interno"></core:CustomData>
+									    </customData>
+									</Button>
+									<Button  id="TipoEmpleadoAutonomo" text="{i18n>TipoEmpleadoAutonomo}" press="goDataEmpleado" icon="sap-icon://business-card" class="sapUiSmallMarginEnd">
+										<customData>
+											<core:CustomData key="tipoEmpleado" value="autonomo"></core:CustomData>
+										</customData>
+									</Button>
+									<Button id="TipoEmpleadoGerente" text="{i18n>TipoEmpleadoGerente}" icon="sap-icon://business-by-design" press="goDataEmpleado">
+										<customData>
+											<core:CustomData key="tipoEmpleado" value="gerente"></core:CustomData>
+										</customData>
+									</Button>
+								</HBox>						
+							</WizardStep>
+							<WizardStep id="datosEmpleadoStep"
+										validated="false"
+										title="{i18n>datosEmpleado}"
+										activate="validarInfoAdicional">
+								<MessageStrip id="MessageStrip1" class="sapUiSmallMarginBottom"
+											text="{i18n>msgDatos}" showIcon="true"/>
+											<form:SimpleForm
+                                                id="form1"
+												editable="true">
+				                                <Label id="LabelNombre" text="{i18n>nombre}" required="true"/>
+												<Input id="inputNombre" valueState="{empleadosModel/_FirstNameState}" change="validacionEmpleado" value="{empleadosModel/FirstName}"/>
+												<Label id="labelApellidos" text="{i18n>apellidos}" required="true"/>
+												<Input id="inputApellidos" valueState="{empleadosModel/_LastNameState}" change="validacionEmpleado" value="{empleadosModel/LastName}"/>
+												<Label id="labelTIPO" text="{= ${empleadosModel/_type} === 'autonomo' ? ${i18n>CIF} : ${i18n>DNI}}" required="true"/>
+												<Input id="intputDni" value="{empleadosModel/Dni}" valueState="{empleadosModel/_DniState}" change="validateDNI"></Input>
+												<Label id="labelSueldo" text="{=${empleadosModel/_type} === 'autonomo' ? ${i18n>sueldoDiario} : ${i18n>sueldoBrutoAnual}}"/>
+												<VBox id="vbox1">
+                                                	<Slider id="sliSueldo" min="{empleadosModel/_ValorMinimo}" max="{empleadosModel/_ValorMaximo}" enableTickmarks="true" class="sapUiSmallMarginBottom" 
+                                                                    width="100%" inputsAsTooltips="true" showAdvancedTooltip="true" value="{empleadosModel/_Salary}">
+			                                            <ResponsiveScale id="scala1" tickmarksBetweenLabels="100"/>
+													</Slider>
+												</VBox>
+												<Label id="labelFecha" text="{i18n>fechaIncorporacion}" required="true"></Label>
+												<DatePicker id="dtpFecha" dateValue="{empleadosModel/CreationDate}" valueState="{empleadosModel/_CreationDateState}" change="validacionEmpleado"></DatePicker>
+											</form:SimpleForm>
+										</WizardStep>
+										<WizardStep id="datosOpcionales"
+													validated="true"
+													activate="optionalStepActivation"
+													title="{i18n>infoAdicional}">
+											<MessageStrip id="mensajePaso3" class="sapUiSmallMarginBottom"
+													text="{i18n>pasoTres}"
+													showIcon="true"/>
+											<Label id="labelComentario" text="{i18n>comentario}" width="100%"></Label>
+											<TextArea id="" value="{empleadosModel/Comments}" width="100%"></TextArea>
+											<UploadCollection
+													id="UploadCollection"
+													maximumFilenameLength="55"
+													maximumFileSize="10"
+													multiple="true"
+													uploadUrl="/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+													sameFilenameAllowed="true"
+													instantUpload="false"
+													change="onChange"
+													beforeUploadStarts="onBeforeUploadStart"
+													noDataDescription="{i18n>Arrastrarficheros}" />
+
+										</WizardStep>
+									</Wizard>
+								</content>
+								<footer>
+									<OverflowToolbar>
+										<ToolbarSpacer/>
+										<Button text="{i18n>cancel}" press="onCancel"/>
+									</OverflowToolbar>
+								</footer>
+							</Page>
+							<Page id="ReviewPage" title="{i18n>resumen}">								
+								<footer>
+									<Toolbar>
+										<ToolbarSpacer></ToolbarSpacer>
+										<Button text="{i18n>guardar}" press="onSaveEmployee"></Button>
+										<Button text="{i18n>cancelar}" press="onCancel"></Button>
+									</Toolbar>
+								</footer>
+							</Page>
+						</pages>
+					</NavContainer>			
+</mvc:View>
