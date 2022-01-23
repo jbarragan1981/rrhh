@@ -51,20 +51,20 @@
                                                 id="form1"
 												editable="true">
 				                                <Label id="LabelNombre" text="{i18n>nombre}" required="true"/>
-												<Input id="inputNombre" valueState="{_empleadosModel>/_FirstNameState}" change="validacionEmpleado" value="{_empleadosModel>/FirstName}"/>
+												<Input id="inputNombre" valueState="{empleadosModel>/_FirstNameState}" change="validacionEmpleado" value="{empleadosModel>/FirstName}"/>
 												<Label id="labelApellidos" text="{i18n>apellidos}" required="true"/>
-												<Input id="inputApellidos" valueState="{_empleadosModel>/_LastNameState}" change="validacionEmpleado" value="{_empleadosModel>/LastName}"/>
-												<Label id="labelTIPO" text="{= ${_empleadosModel>/_type} === 'autonomo' ? ${i18n>CIF} : ${i18n>DNI}}" required="true"/>
-												<Input id="intputDni" value="{_empleadosModel>/Dni}" valueState="{empleadosModel>/_DniState}" change="validateDNI"></Input>
-												<Label id="labelSueldo" text="{=${_empleadosModel>/_type} === 'autonomo' ? ${i18n>sueldoDiario} : ${i18n>sueldoBrutoAnual}}"/>
+												<Input id="inputApellidos" valueState="{empleadosModel>/_LastNameState}" change="validacionEmpleado" value="{empleadosModel>/LastName}"/>
+												<Label id="labelTIPO" text="{= ${empleadosModel>/_type} === 'autonomo' ? ${i18n>CIF} : ${i18n>DNI}}" required="true"/>
+												<Input id="intputDni" value="{empleadosModel>/Dni}" valueState="{empleadosModel>/_DniState}" change="validateDNI"></Input>
+												<Label id="labelSueldo" text="{=${empleadosModel>/_type} === 'autonomo' ? ${i18n>sueldoDiario} : ${i18n>sueldoBrutoAnual}}"/>
 												<VBox id="vbox1">
-                                                	<Slider id="sliSueldo" min="{_empleadosModel>/_ValorMinimo}" max="{_empleadosModel>/_ValorMaximo}" enableTickmarks="true" class="sapUiSmallMarginBottom" 
-                                                                    width="100%" inputsAsTooltips="true" showAdvancedTooltip="true" value="{_empleadosModel>/_Salary}">
+                                                	<Slider id="sliSueldo" min="{empleadosModel>/_ValorMinimo}" max="{empleadosModel>/_ValorMaximo}" enableTickmarks="true" class="sapUiSmallMarginBottom" 
+                                                                    width="100%" inputsAsTooltips="true" showAdvancedTooltip="true" value="{empleadosModel>/_Salary}">
 			                                            <ResponsiveScale id="scala1" tickmarksBetweenLabels="100"/>
 													</Slider>
 												</VBox>
 												<Label id="labelFecha" text="{i18n>fechaIncorporacion}" required="true"></Label>
-												<DatePicker id="dtpFecha" dateValue="{_empleadosModel>/CreationDate}" valueState="{_empleadosModel>/_CreationDateState}" change="validacionEmpleado"></DatePicker>
+												<DatePicker id="dtpFecha" dateValue="{empleadosModel>/CreationDate}" valueState="{empleadosModel>/_CreationDateState}" change="validacionEmpleado"></DatePicker>
 											</form:SimpleForm>
 										</WizardStep>
 										<WizardStep id="datosOpcionales"

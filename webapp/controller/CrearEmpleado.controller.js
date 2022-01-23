@@ -14,8 +14,8 @@ sap.ui.define([
             oFirstStep.setValidated(false);      
 
             this._vistaCrearEmpleado = this.getView();
-            this._empleadosModel = new sap.ui.model.json.JSONModel([]);
-            this._vistaCrearEmpleado.setModel(this._empleadosModel, "empleadosModel");      
+            var empleadosModel = new sap.ui.model.json.JSONModel([]);
+            this._vistaCrearEmpleado.setModel(empleadosModel, "empleadosModel");      
         },
         goDataEmpleado: function (oEvent) {    	
             let datosEmpleadoStep = this.byId("datosEmpleadoStep");
@@ -50,8 +50,8 @@ sap.ui.define([
                     break;
             }
 
-            this._empleadosModel = this._vistaCrearEmpleado.getModel("empleadosModel");
-            this._empleadosModel.setData({
+            this.empleadosModel = this._vistaCrearEmpleado.getModel("empleadosModel");
+            this._vistaCrearEmpleado.getModel("empleadosModel").setData({
                 _type : tipoEmpleado,
                 Type : Type,
                 _Salary : Salary,
@@ -70,7 +70,7 @@ sap.ui.define([
         },
         validateDNI: function(oEvent){
             //Se comprueba si es dni o cif. En caso de dni, se comprueba su valor. Para ello se comprueba que el tipo no sea "autonomo"
-            if(this._empleadosModel.getProperty("_type") !== "autonomo"){
+            if(this.empleadosModel.getProperty("_type") !== "autonomo"){
                 var dni = oEvent.getParameter("value");
                 var number;
                 var letter;
@@ -86,18 +86,18 @@ sap.ui.define([
                     letterList="TRWAGMYFPDXBNJZSQVHLCKET";
                     letterList=letterList.substring(number,number+1);
                 if (letterList !== letter.toUpperCase()) {
-                    this._empleadosModel.setProperty("/_DniState","Error");
+                    this.empleadosModel.setProperty("/_DniState","Error");
                 }else{
-                    this._empleadosModel.setProperty("/_DniState","None");
+                    this.empleadosModel.setProperty("/_DniState","None");
                     this.validacionEmpleado();
                 }
                 }else{
-                    this._empleadosModel.setProperty("/_DniState","Error");
+                    this.empleadosModel.setProperty("/_DniState","Error");
                 }
             }
         },        
         validacionEmpleado: function(oEvent,callback) {
-            var object = this._empleadosModel.getData();
+            var object = this.empleadosModel.getData();
             var isValid = true;
             if(!object.FirstName){
                 object._FirstNameState = "Error";
@@ -147,15 +147,15 @@ sap.ui.define([
                     var uploadCollection = this.byId("UploadCollection");
                     var files = uploadCollection.getItems();
                     var numFiles = uploadCollection.getItems().length;
-                    this._empleadosModel.setProperty("/_numFiles",numFiles);
+                    this.empleadosModel.setProperty("/_numFiles",numFiles);
                     if (numFiles > 0) {
                         var arrayFiles = [];
                         for(var i in files){
                             arrayFiles.push({DocName:files[i].getFileName(),MimeType:files[i].getMimeType()});	
                         }
-                        this._empleadosModel.setProperty("/_files",arrayFiles);
+                        this.empleadosModel.setProperty("/_files",arrayFiles);
                     }else{
-                        this._empleadosModel.setProperty("/_files",[]);
+                        this.empleadosModel.setProperty("/_files",[]);
                     }
                 }else{
                     this._wizard.goToStep(this.byId("datosEmpleadoStep"));
@@ -185,7 +185,7 @@ sap.ui.define([
             _editStep.bind(this)("datosOpcionales");
         },
         onSaveEmployee: function(){
-            var json = this.getView().getModel().getData();
+            var json = this.getView().getModel("empleadosModel").getData();
             var body = {};
             //Se obtienen aquellos campos que no empicen por "_", ya que son los que vamos a enviar
             for(var i in json){
@@ -200,7 +200,7 @@ sap.ui.define([
                 Waers : "EUR"
             }];
             this.getView().setBusy(true);
-            this.getView().getModel("odataModel").create("/Users",body,{
+            this.getView().getModel("empleadosModel").create("/Users",body,{
                 success : function(data){
                     this.getView().setBusy(false);
                     //Se almacena el nuevo usuario
@@ -247,7 +247,7 @@ sap.ui.define([
         // Header Token
         var oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
             name: "x-csrf-token",
-            value: this.getView().getModel("odataModel").getSecurityToken()
+            value: this.getView().getModel("empleadosModel").getSecurityToken()
         });
         oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
         },

@@ -10,12 +10,12 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "dataSources": {
-        "YSAPUI5_SRV_01": {
-            "uri": "sap/opu/odata/sap/YSAPUI5_SRV_01/",
+        "ZEMPLOYEES_SRV": {
+            "uri": "sap/opu/odata/sap/ZEMPLOYEES_SRV/",
             "type": "OData",
             "settings": {
                 "odataVersion": "2.0",
-                "localUri": "localService/YSAPUI5_SRV_01/metadata.xml"
+                "localUri": "model/metadata.xml"
             }
         }        
     }
@@ -56,7 +56,7 @@
         }
       },
     "empleadosModel": {
-            "dataSource": "YSAPUI5_SRV_01",
+            "dataSource": "ZEMPLOYEES_SRV",
             "preload": true,
             "settings": {
                 "defaultOperationMode": "Server",
