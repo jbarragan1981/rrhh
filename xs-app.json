@@ -3,11 +3,11 @@
   "authenticationMethod": "route",
   "routes": [
     {
-        "authenticationType": "none",
-        "csrfProtection": false,
-        "source": "^/sap/opu/odata/sap/ZEMPLOYEES_SRV/",
-        "destination": "logaligroupERP"
-      },
+      "authenticationType": "xsuaa",
+      "csrfProtection": false,
+      "source": "^/sap/opu/odata/sap/ZEMPLOYEES_SRV/",
+      "destination": "logaligroupERP"
+    },
     {
       "source": "^/resources/(.*)$",
       "target": "/resources/$1",

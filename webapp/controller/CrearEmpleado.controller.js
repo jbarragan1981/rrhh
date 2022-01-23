@@ -142,20 +142,20 @@ sap.ui.define([
                 if(isValid){
                     //Se navega a la página review
                     var wizardNavContainer = this.byId("wizardNavContainer");
-                    wizardNavContainer.to(this.byId("ReviewPage"));
+                    wizardNavContainer.to(this.byId("ResumenDatos"));
                     //Se obtiene los archivos subidos
                     var uploadCollection = this.byId("UploadCollection");
                     var files = uploadCollection.getItems();
                     var numFiles = uploadCollection.getItems().length;
-                    this.empleadosModel.setProperty("/_numFiles",numFiles);
+                    this._vistaCrearEmpleado.getModel("empleadosModel").setProperty("/_numFiles",numFiles);
                     if (numFiles > 0) {
                         var arrayFiles = [];
                         for(var i in files){
                             arrayFiles.push({DocName:files[i].getFileName(),MimeType:files[i].getMimeType()});	
                         }
-                        this.empleadosModel.setProperty("/_files",arrayFiles);
+                        this._vistaCrearEmpleado.getModel("empleadosModel").setProperty("/_files",arrayFiles);
                     }else{
-                        this.empleadosModel.setProperty("/_files",[]);
+                        this._vistaCrearEmpleado.getModel("empleadosModel").setProperty("/_files",[]);
                     }
                 }else{
                     this._wizard.goToStep(this.byId("datosEmpleadoStep"));
@@ -185,36 +185,38 @@ sap.ui.define([
             _editStep.bind(this)("datosOpcionales");
         },
         onSaveEmployee: function(){
-            var json = this.getView().getModel("empleadosModel").getData();
+            var jsonDatosEmpleado = this._vistaCrearEmpleado.getModel("empleadosModel").getData();
             var body = {};
-            //Se obtienen aquellos campos que no empicen por "_", ya que son los que vamos a enviar
-            for(var i in json){
-                if(i.indexOf("_") !== 0){
-                    body[i] = json[i];
-                }
+            var body = {
+                SapId: this.getOwnerComponent().SapId,
+                Type: jsonDatosEmpleado.Type.toString(),
+                FirstName: jsonDatosEmpleado.FirstName,
+                LastName: jsonDatosEmpleado.LastName,
+                Dni: jsonDatosEmpleado.Dni,
+                CreationDate: jsonDatosEmpleado.CreationDate,
+                Comments: jsonDatosEmpleado.Comments,
+                UserToSalary: [
+                    {
+                        Amount: parseFloat(jsonDatosEmpleado._Salary).toString(),
+                        Comments: jsonDatosEmpleado.Comments,
+                        Waers: "EUR"
+                    }
+                ]
             }
-            body.SapId = this.getOwnerComponent().SapId;
-            body.UserToSalary = [{
-                Ammount : parseFloat(json._Salary).toString(),
-                Comments : json.Comments,
-                Waers : "EUR"
-            }];
+
             this.getView().setBusy(true);
-            this.getView().getModel("empleadosModel").create("/Users",body,{
+            this.getView().getModel("oDataEmpleados").create("/Users",body,{
                 success : function(data){
                     this.getView().setBusy(false);
                     //Se almacena el nuevo usuario
                     this.newUser = data.EmployeeId;
                     sap.m.MessageBox.information(this.oView.getModel("i18n").getResourceBundle().getText("empleadoNuevo") + ": " + this.newUser,{
-                        onClose : function(){
-                            //Se vuelve al wizard, para que al vovler a entrar a la aplicacion aparezca ahi
+                        onClose : function(){                            
                             var wizardNavContainer = this.byId("wizardNavContainer");
                             wizardNavContainer.back();
-                            //Regresamos al menú principal
-                            //Se obtiene el conjuntos de routers del programa
-                            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                            //Se navega hacia el router "menu"
-                            oRouter.navTo("menu",{},true);
+                            
+                            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);                            
+                            oRouter.navTo("MenuApp",{},true);
                         }.bind(this)
                     });
                     //Se llama a la función "upload" del uploadCollection
@@ -247,7 +249,7 @@ sap.ui.define([
         // Header Token
         var oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
             name: "x-csrf-token",
-            value: this.getView().getModel("empleadosModel").getSecurityToken()
+            value: this.getView().getModel("oDataEmpleados").getSecurityToken()
         });
         oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
         },

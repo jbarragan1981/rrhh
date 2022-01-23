@@ -81,7 +81,7 @@
 													maximumFilenameLength="55"
 													maximumFileSize="10"
 													multiple="true"
-													uploadUrl="/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+													uploadUrl="sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
 													sameFilenameAllowed="true"
 													instantUpload="false"
 													change="onChange"
@@ -97,8 +97,9 @@
 										<Button text="{i18n>cancel}" press="onCancel"/>
 									</OverflowToolbar>
 								</footer>
-							</Page>
-							<Page id="ReviewPage" title="{i18n>resumen}">								
+							</Page>                            
+							<Page id="ResumenDatos" title="{i18n>resumen}">	
+                            <core:Fragment fragmentName="rrhh.rrhh.fragments.ResumenDatos" type="XML"/>							
 								<footer>
 									<Toolbar>
 										<ToolbarSpacer></ToolbarSpacer>

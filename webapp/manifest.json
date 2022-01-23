@@ -10,14 +10,14 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "dataSources": {
-        "ZEMPLOYEES_SRV": {
-            "uri": "sap/opu/odata/sap/ZEMPLOYEES_SRV/",
-            "type": "OData",
-            "settings": {
-                "odataVersion": "2.0",
-                "localUri": "model/metadata.xml"
-            }
-        }        
+      "ZEMPLOYEES_SRV": {
+        "uri": "/sap/opu/odata/sap/ZEMPLOYEES_SRV/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "localService/metadata.xml"
+        }
+      }
     }
   },
   "sap.ui": {
@@ -55,18 +55,18 @@
           "bundleName": "rrhh.rrhh.i18n.i18n"
         }
       },
-    "empleadosModel": {
-            "dataSource": "ZEMPLOYEES_SRV",
-            "preload": true,
-            "settings": {
-                "defaultOperationMode": "Server",
-                "defaultBindingMode": "TwoWay",
-                "defaultCountMode": "Request",
-                "refreshAfterChange": false,
-                "useBatch": false,
-                "defaultUpdateMethod": "Put"
-            }
+      "oDataEmpleados": {
+        "dataSource": "ZEMPLOYEES_SRV",
+        "preload": true,
+        "settings": {
+          "defaultOperationMode": "Server",
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Request",
+          "refreshAfterChange": false,
+          "useBatch": false,
+          "defaultUpdateMethod": "Put"
         }
+      }
     },
     "resources": {
       "css": [
@@ -94,19 +94,19 @@
           ]
         },
         {
-            "name": "CrearEmpleado",
-            "pattern": "CrearEmpleado",
-            "target": [
-              "CrearEmpleado"
-            ]
-          },
-          {
-            "name": "VerEmpleado",
-            "pattern": "VerEmpleado",
-            "target": [
-              "VerEmpleado"
-            ]
-          }            
+          "name": "CrearEmpleado",
+          "pattern": "CrearEmpleado",
+          "target": [
+            "CrearEmpleado"
+          ]
+        },
+        {
+          "name": "VerEmpleado",
+          "pattern": "VerEmpleado",
+          "target": [
+            "VerEmpleado"
+          ]
+        }
       ],
       "targets": {
         "MenuApp": {
@@ -117,19 +117,19 @@
           "viewName": "MenuApp"
         },
         "CrearEmpleado": {
-            "viewType": "XML",
-            "transition": "slide",
-            "clearControlAggregation": true,
-            "viewId": "CrearEmpleado",
-            "viewName": "CrearEmpleado"
-          },
-          "VerEmpleado": {
-            "viewType": "XML",
-            "transition": "slide",
-            "clearControlAggregation": true,
-            "viewId": "VerEmpleado",
-            "viewName": "VerEmpleado"
-          }
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": true,
+          "viewId": "CrearEmpleado",
+          "viewName": "CrearEmpleado"
+        },
+        "VerEmpleado": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": true,
+          "viewId": "VerEmpleado",
+          "viewName": "VerEmpleado"
+        }
       }
     },
     "rootView": {
