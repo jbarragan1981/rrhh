@@ -11,7 +11,7 @@
 			<form:content>
 				<Label text="{i18n>tipo}"/>
 				<Text text="{=${empleadosModel>/_type} === 'interno' ? ${i18n>TipoEmpleadoInterno} : ${empleadosModel>/_type} === 'autonomo' ? ${i18n>TipoEmpleadoAutonomo} : ${i18n>TipoEmpleadoGerente}}"/>
-				<Link press="editStepOne" text="{i18n>editar}" />
+				<Link press="editStep('tipoEmpleadoStep')" text="{i18n>editar}" />
 			</form:content>
 		</form:SimpleForm>
 		
@@ -31,7 +31,7 @@
 				<Text  text="{empleadosModel>/_Salary}"/>
 				<Label text="{i18n>fechaIncorporacion}"/>
 				<Text  text="{path:'empleadosModel>/CreationDate',type:'sap.ui.model.type.Date'}"/>
-				<Link press="editStepTwo" text="{i18n>editar}" />
+				<Link press="editStep('datosEmpleadoStep')" text="{i18n>editar}" />
 			</form:content>
 		</form:SimpleForm>
 		
@@ -51,8 +51,7 @@
 						<StandardListItem title="{DocName}"></StandardListItem>
 					</items>
 				</List>
-				<Link press="editStepThree" text="{i18n>editar}" />
+				<Link press="editStep('datosEmpleadoStep')" text="{i18n>editar}" />
 			</form:content>
-		</form:SimpleForm>
-		
+		</form:SimpleForm>		
 </core:FragmentDefinition>

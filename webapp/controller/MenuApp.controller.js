@@ -1,6 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+], 
+/**
+ * 
+ */
+    function (Controller) {
 	"use strict";
 	
 	function onInit(){
@@ -8,11 +12,7 @@ sap.ui.define([
 	}
 	
 	function onAfterRendering(){
-		var genericTileFirmarPedido = this.byId("linkFirmarPedido");
-		//Id del dom
-		var idGenericTileFirmarPedido = genericTileFirmarPedido.getId();
-		//Se vacia el id
-		//jQuery("#"+idGenericTileFirmarPedido)[0].id = "";
+	
 	}
 		
 	function crearEmpleado(){
@@ -28,10 +28,16 @@ sap.ui.define([
 			oRouter.navTo("VerEmpleado",{},false);
 	}
 
+    function firmarPedidos() {
+        const RutaAppFirmarPedidos = this.getOwnerComponent().RutaAppFirmarPedidos;
+        window.open(RutaAppFirmarPedidos, '_blank');
+    };
+
     var menuApp = Controller.extend("rrhh.rrhh.controller.MenuApp", {});
     menuApp.prototype.onInit = onInit;
     menuApp.prototype.onAfterRendering = onAfterRendering;
     menuApp.prototype.crearEmpleado = crearEmpleado;
     menuApp.prototype.verEmpleado = verEmpleado;
+    menuApp.prototype.firmarPedidos = firmarPedidos
 
 });

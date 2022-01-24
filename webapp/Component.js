@@ -27,7 +27,9 @@ sap.ui.define([
                 this.setModel(models.createDeviceModel(), "device");
             },
 
-            SapId: "johannabarragan149@gmail.com"
+            SapId: "johannabarragan149@gmail.com",
+
+            RutaAppFirmarPedidos: 'https://54437e09trial-dev-logali-approuter.cfapps.us10.hana.ondemand.com/logaligroupemployees/index.html'
         });
     }
 );

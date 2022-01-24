@@ -20,15 +20,14 @@
 					<TileContent id="tileContent2" footer="{i18n>verEmpleados}"/>								
 				</GenericTile>
 			</Panel>
-			<Panel id="firmarPedidos" headerText="{i18n>pedidos}" expandable="true" expanded="true">
-				<GenericTile 
-                    id="linkFirmarPedido"  
-                    headerImage="sap-icon://signature" 
-                    class="sapUiTinyMarginBegin sapUiTinyMarginTop" 
-                    url="https://54437e09trial-dev-logali-approuter.cfapps.us10.hana.ondemand.com/logaligroupemployees/index.html">
-					<TileContent id="tileContent3" footer="{i18n>firmarPedido}"/>
-				</GenericTile>
-			</Panel>
+            <Panel id="panelPedidos" headerText="{i18n>pedidos}" expandable="true" expanded="true">
+                <GenericTile id="tilePedidos" headerImage="sap-icon://signature" class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" 
+                            press="firmarPedidos">
+                    <TileContent id="TileFirmarPedidos" footer="{i18n>firmarPedido}">
+                        <ImageContent id="imageFirmarPedidos" />
+                    </TileContent>
+                </GenericTile>               
+            </Panel>
 		</content>
 	</Page>
 </mvc:View>

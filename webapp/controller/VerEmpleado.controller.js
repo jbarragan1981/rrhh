@@ -1,7 +1,19 @@
+// @ts-nocheck
+
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-    "sap/ui/core/routing/History"
-], function (Controller,History) {
+    "sap/ui/core/routing/History",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
+], 
+/**
+ * 
+ * @param {sap.ui.core.mvc.Controller} Controller 
+ * @param {sap.ui.core.routing.History} History 
+ * @param {sap.ui.model.Filter} Filter 
+ * @param {sap.ui.model.FilterOperator} FilterOperator 
+ */
+function (Controller,History,Filter,FilterOperator) {
 	"use strict";
 	
 	function onInit(){
@@ -16,36 +28,52 @@ sap.ui.define([
 			oRouter.navTo("MenuApp", {}, true);
 	}
 	
-	//Función para filtrar empleados
-	function onSearchEmployee(){
-		
+	//Search field empleados
+	function onSearchEmployee(oEvent){		
+        let filters = [];
+        let sQuery = oEvent.getSource().getValue();        
+    
+        var filter = new Filter({
+            filters: [
+               /* new Filter({
+                    path:'SapId',
+                    operator:'EQ',
+                    value1:this.getOwnerComponent().SapId
+                }),*/
+                new Filter({
+                    path: 'FirstName',
+                    operator: FilterOperator.Contains,
+                    value1: sQuery
+                })
+            ],
+            and: true
+        })
+        filters.push(filter);
+    
+        var oList = this.byId("listEmpleados");
+        var oBinding = oList.getBinding("items");
+        oBinding.filter(filters, "Application");        
 	}
 	
 	//Función al seleccionar un empleado
 	function onSelectEmployee(oEvent){
-		//Se navega al detalle del empleado
 		this._splitAppEmployee.to(this.createId("detailEmployee"));
 		let context = oEvent.getParameter("listItem").getBindingContext("oDataEmpleados");
-		//Se almacena el usuario seleccionado
 		this.employeeId = context.getProperty("EmployeeId");
 		let detailEmployee = this.byId("detailEmployee");
-		//Se bindea a la vista con la entidad Users y las claves del id del empleado y el id del alumno
 		detailEmployee.bindElement("oDataEmpleados>/Users(EmployeeId='"+ this.employeeId +"',SapId='"+this.getOwnerComponent().SapId+"')");
 		
 	}
 	
 	//Función para eliminar el empleado seleccionado
 	function onDeleteEmployee(oEvent){
-		//Se muestra un mensaje de confirmación
 		sap.m.MessageBox.confirm(this.getView().getModel("i18n").getResourceBundle().getText("seguroDeEliminar"),{
 			title : this.getView().getModel("i18n").getResourceBundle().getText("confirm"),
 			onClose : function(oAction){
 			    	if(oAction === "OK"){
-			    		//Se llama a la función remove
 						this.getView().getModel("oDataEmpleados").remove("/Users(EmployeeId='" + this.employeeId + "',SapId='"+this.getOwnerComponent().SapId+"')",{
 							success : function(data){
 								sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("seHaEliminadoUsuario"));
-								//En el detalle se muestra el mensaje "Seleecione empleado"
 								this._splitAppEmployee.to(this.createId("detailSelectEmployee"));
 							}.bind(this),
 							error : function(e){
@@ -101,12 +129,8 @@ sap.ui.define([
 		
     }
     
-    //Función que se ejecuta al cargar un fichero en el uploadCollection
-	//Se agrega el parametro de cabecera x-csrf-token con el valor del token del modelo
-	//Es necesario para validarse contra sap
 	function onChange (oEvent) {
-	   let oUploadCollection = oEvent.getSource();
-	   // Header Token
+	   let oUploadCollection = oEvent.getSource();	
 	   let oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
 	    name: "x-csrf-token",
 	    value: this.getView().getModel("oDataEmpleados").getSecurityToken()
@@ -114,8 +138,6 @@ sap.ui.define([
 	   oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
 	 }
 	
-	//Función que se ejecuta por cada fichero que se va a subir a sap
-	//Se debe agregar el parametro de cabecera "slug" con el valor "id de sap del alumno",id del nuevo usuario y nombre del fichero, separados por ;
 	 function onBeforeUploadStart (oEvent) {
 	   let oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
 				name: "slug",

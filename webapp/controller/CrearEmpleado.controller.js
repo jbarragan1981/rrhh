@@ -161,29 +161,17 @@ sap.ui.define([
                     this._wizard.goToStep(this.byId("datosEmpleadoStep"));
                 }
             }.bind(this));
-        },
-        _editStep: function (step){
-            var wizardNavContainer = this.byId("wizardNavContainer");
-            //Se añade un función al evento afterNavigate, ya que se necesita 
-            //que la función se ejecute una vez ya se haya navegado a la vista principal
-            var fnAfterNavigate = function () {
-                    this._wizard.goToStep(this.byId(step));
-                    //Se quita la función para que no vuelva a ejecutar al volver a nevagar
-                    wizardNavContainer.detachAfterNavigate(fnAfterNavigate);
-                }.bind(this);
+        },                
+        editStep: function(step){            
+            let wizardNavContainer = this.byId("wizardNavContainer");
+            let fnAfterNavigate = function () {
+                this._wizard.goToStep(this.byId(step));
+                wizardNavContainer.detachAfterNavigate(fnAfterNavigate);
+            }.bind(this);
 
             wizardNavContainer.attachAfterNavigate(fnAfterNavigate);
             wizardNavContainer.back();
         },        
-        editStepOne: function(){
-            _editStep.bind(this)("tipoEmpleadoStep");
-        },        
-        editStepTwo: function(){
-            _editStep.bind(this)("datosEmpleadoStep");
-        },
-        editStepThree: function(){
-            _editStep.bind(this)("datosOpcionales");
-        },
         onSaveEmployee: function(){
             var jsonDatosEmpleado = this._vistaCrearEmpleado.getModel("empleadosModel").getData();
             var body = {};
